@@ -138,8 +138,8 @@ namespace TDDApp.NUnit.Tests
 
             //Constraint syntax
             Assert.That("Test", Is.TypeOf(typeof(string)));
-            Assert.That("Test", Not.TypeOf(typeof(string)));
-            //Assert.That(5, Not.TypeOf(typeof(string)));
+            //Assert.That("Test", Not.TypeOf(typeof(string)));
+            Assert.That(5, Not.TypeOf(typeof(string)));
         }
 
         [Test]
@@ -162,9 +162,44 @@ namespace TDDApp.NUnit.Tests
 
             //constraints
             Assert.That("Test", Is.AssignableFrom(typeof(string)));
-            Assert.That("Test",Not.AssignableFrom(typeof(int)));
+            Assert.That("Test", Not.AssignableFrom(typeof(int)));
         }
 
+        #endregion
+
+
+        #region "String contraints tests"
+        [Test]
+        public void SubstringTest()
+        {
+            var phrase = "Hello Test Driven Development!";
+            var array = new string[] { "test", "driven", "development" };
+
+            //classic
+            StringAssert.Contains("Test", phrase);
+
+            //contraints
+            Assert.That(phrase, Does.Contain("Test"));
+            Assert.That(phrase, Does.Contain("TEST").IgnoreCase);
+            Assert.That(phrase, Does.Not.Contain("Bye"));
+            Assert.That(array, Is.All.Contain("e"));
+        }
+
+        [Test]
+        public void StartsWithTest()
+        {
+            var phrase = "Hello Test Driven Development!";
+            var array = new string[] { "Hello!", "Hi!", "Hola!" };
+
+            //classic
+            StringAssert.StartsWith("Hello", phrase);
+
+            //contraints
+            Assert.That(phrase, Does.StartWith("Hello"));
+            Assert.That(phrase, Does.StartWith("HELLO").IgnoreCase);
+            Assert.That(phrase, Does.Not.StartWith("HI").IgnoreCase);
+            Assert.That(array, Is.All.StartWith("h").IgnoreCase);
+        }
         #endregion
     }
 }
