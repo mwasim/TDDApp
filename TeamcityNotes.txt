@@ -1,0 +1,35 @@
+TeamCity Configurations:
+-------------------------
+Build Steps In Order
+1. 01-Restore NuGet Packages [Select NuGet.exe installed below]
+2. Build Step (2 of 3): Visual Studio (sln) 
+3. Tests
+
+
+Tools Installations Required:
+-----------------------------
+Administration-> Tools -> Install NuGet (Required Version)
+
+
+Fixing Error (NuGet.exe not found by teamcity)
+-----------------------------------------------
+http://stackoverflow.com/questions/39995862/teamcity-nuget-installer-step-fails-saying-failed-to-find-nuget-executable
+So after breaking my head over this, I managed to find the solution.
+
+At the time of downloading nuget.exe in Teamcity - Administrator>Integration>Tools>Nuget.exe>Installed Version>3.4.3
+
+if teamcity agent is already running & you try to run a new build, the agent can never detect new installations(in this case nuget.exe) and so it fails.
+
+Solution - restart the agent ->in command prompt C:\TeamCity\buildAgent\bin>agent.bat stop force and then C:\TeamCity\buildAgent\bin>agent.bat start.
+
+Now go to Administration>>Project_name>Build Steps>Parameters
+
+Add a new Parameter
+Configuration Parameters
+Name : teamcity.tool.NuGet.CommandLine.DEFAULT
+Value: Browse the small box and select- %teamcity.tool.NuGet.CommandLine.3.4.3%
+Save
+Run the Build
+
+The Nuget Installer Step runs fine and restores the packages.
+

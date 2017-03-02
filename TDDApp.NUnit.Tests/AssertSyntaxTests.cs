@@ -126,5 +126,45 @@ namespace TDDApp.NUnit.Tests
             Assert.That(numberList, Is.Not.Empty);
         }
         #endregion
+
+        #region "Type constraints Tests"
+        [Test]
+        public void ExactTypeTest()
+        {
+            //classic syntax
+            Assert.AreEqual(typeof(string), "Test".GetType());
+            Assert.AreEqual("System.String", "Test".GetType().FullName);
+            Assert.AreNotEqual(typeof(int), "Test".GetType());
+
+            //Constraint syntax
+            Assert.That("Test", Is.TypeOf(typeof(string)));
+            Assert.That("Test", Not.TypeOf(typeof(string)));
+            //Assert.That(5, Not.TypeOf(typeof(string)));
+        }
+
+        [Test]
+        public void InstanceOfTest()
+        {
+            //classic
+            Assert.IsInstanceOf(typeof(string), "Test");
+            Assert.IsNotInstanceOf(typeof(int), "Test");
+
+            //constraint
+            Assert.That("Test", Is.InstanceOf(typeof(string)));
+            Assert.That("Test", Not.InstanceOf(typeof(int)));
+        }
+
+        public void AssignableFromTypeTest()
+        {
+            //classic
+            Assert.IsAssignableFrom(typeof(string), "Test");
+            Assert.IsNotAssignableFrom(typeof(int), "Test");
+
+            //constraints
+            Assert.That("Test", Is.AssignableFrom(typeof(string)));
+            Assert.That("Test",Not.AssignableFrom(typeof(int)));
+        }
+
+        #endregion
     }
 }
