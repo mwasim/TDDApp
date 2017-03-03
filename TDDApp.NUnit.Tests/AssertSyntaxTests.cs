@@ -200,6 +200,61 @@ namespace TDDApp.NUnit.Tests
             Assert.That(phrase, Does.Not.StartWith("HI").IgnoreCase);
             Assert.That(array, Is.All.StartWith("h").IgnoreCase);
         }
+
+        [Test]
+        public void EndsWithTest()
+        {
+            var phrase = "Hello Test Driven Development!";
+            var array = new string[] { "Hello!", "Hi!", "Hola!" };
+
+            //classic 
+            StringAssert.DoesNotEndWith("lo", phrase);
+            StringAssert.EndsWith("Development!", phrase);
+
+            //contraints syntax
+            Assert.That(phrase, Does.EndWith("Development!"));
+            Assert.That(phrase, Does.EndWith("DEVELOPMENT!").IgnoreCase);
+            Assert.That(phrase, Does.Not.EndWith("WORLD").IgnoreCase);
+            Assert.That(array, Is.All.EndWith("!"));
+        }
+
+        [Test]
+        public void EqualIgnoreCaseTest()
+        {
+            //string equal
+            var phrase = "Hello Unit Testing!";
+
+            //two arrays or objects are equal
+            string[] arr1 = new string[] { "ONE", "Two", "THRee" };
+            string[] arr2 = new string[] { "one", "two", "three" };
+
+            //classic
+            StringAssert.AreEqualIgnoringCase("Hello UNIT testing!", phrase);
+
+            //constraints syntax
+            Assert.That(phrase, Is.EqualTo("HELLO unit TESting!").IgnoreCase);
+            Assert.That(phrase, Is.Not.EqualTo("HELLO DEVELOPMENT!"));
+            Assert.That(arr1, Is.EqualTo(arr2).IgnoreCase);
+            Assert.That(new string[] { "HELLO", "hello", "hELLo" }, All.EqualTo("Hello").IgnoreCase);
+        }
+
+        [Test]
+        public void RegularExpressionTest()
+        {
+            var phrase = "Tit for tat!";
+            var quotes = new string[] { "Never say never", "It's never too late", "Nevermore!" };
+
+            //classic
+            StringAssert.IsMatch("Tit for", phrase);
+            StringAssert.IsMatch("Ti.*tat!", phrase);
+
+            //constraint syntax
+            Assert.That(phrase, Does.Match("Tit FOR").IgnoreCase);
+            Assert.That(phrase, Does.Match("Ti.*tat!"));
+            Assert.That(phrase, Does.Not.Match("Its useless to cry over"));
+            Assert.That(quotes, All.Matches("never").IgnoreCase);
+        }
         #endregion
     }
 }
+
